@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">"Beyond News "</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="headline">HeadLine</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="sport">Sport</string>
+    <string name="local">Local</string>
+    <string name="setting">Setting</string>
+    <string name="building">Building on progress...</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_headline_fragment">Hello Headline fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_read">ReadActivity</string>
+</resources>
