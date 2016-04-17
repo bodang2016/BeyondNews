@@ -32,7 +32,7 @@ public class Client {
                 socket = new Socket("10.27.49.219", 1216);
             }
             out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
             return 1;
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
@@ -74,8 +74,8 @@ public class Client {
         return name;
     }
 
-    public String getAccount(int index){
-        if(accounts != null)
+    public String getAccount(int index) {
+        if (accounts != null)
             return accounts.get(index);
         else
             return null;
@@ -85,7 +85,7 @@ public class Client {
         // TODO Auto-generated method stub
         out.println(7);
         out.println(account);
-        int success=0;
+        int success = 0;
         try {
             success = Integer.parseInt(in.readLine());
         } catch (NumberFormatException | IOException e) {
@@ -102,7 +102,7 @@ public class Client {
         ArrayList<String[]> list = new ArrayList<String[]>();
         try {
             read = in.readLine();
-            while(!read.equals("-1")) {
+            while (!read.equals("-1")) {
                 String[] str = new String[6];
                 str[0] = read;
                 str[1] = in.readLine();
@@ -129,7 +129,7 @@ public class Client {
         ArrayList<String[]> list = new ArrayList<String[]>();
         try {
             read = in.readLine();
-            while(!read.equals("-1")) {
+            while (!read.equals("-1")) {
                 String[] str = new String[6];
                 str[0] = read;
                 str[1] = in.readLine();
@@ -148,12 +148,26 @@ public class Client {
         return list;
     }
 
+    public String[] getContent(int id) {
+        out.println(4);
+        out.println(id);
+        String[] news = new String[2];
+        try {
+            news[0] = in.readLine();
+            news[1] = in.readLine();
+            return news;
+        } catch (IOException E) {
+            E.printStackTrace();
+            return null;
+        }
+    }
+
     public void close() {
         try {
             out.println(3);
             socket.close();
-            socket=null;
-        }catch(IOException e) {
+            socket = null;
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

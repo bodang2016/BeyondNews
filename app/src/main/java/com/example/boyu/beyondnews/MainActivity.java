@@ -55,20 +55,6 @@ public class MainActivity extends AppCompatActivity
         displayView(R.id.nav_headline);
     }
 
-    public byte[] toImg(int id) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(id)).getBitmap();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
-    }
-
-    public Drawable toDrawable(Bitmap bp) {
-
-        Bitmap bm = bp;
-        BitmapDrawable bd = new BitmapDrawable(getResources(),bm);
-        return bd;
-    }
-
 
 
     @Override
