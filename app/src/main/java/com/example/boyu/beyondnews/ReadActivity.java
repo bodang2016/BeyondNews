@@ -11,15 +11,18 @@ import android.widget.TextView;
 
 public class ReadActivity extends AppCompatActivity {
 
+    TextView title;
+    TextView passage;
+    ImageView image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        TextView title = (TextView) findViewById(R.id.readTitle);
-        TextView passage = (TextView) findViewById(R.id.readPassage);
-        ImageView image = (ImageView) findViewById(R.id.readImage);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
+
+        title = (TextView) findViewById(R.id.readTitle);
+        passage = (TextView) findViewById(R.id.readPassage);
+        image = (ImageView) findViewById(R.id.readImage);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
