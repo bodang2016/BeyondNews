@@ -162,6 +162,18 @@ public class Client {
         }
     }
 
+    public int signAndRegister(String email, String password) {
+        out.println(5);
+        out.println(email);
+        out.println(password);
+        try {
+            return Integer.parseInt(in.readLine());
+        } catch (IOException E) {
+            E.printStackTrace();
+            return -1;
+        }
+    }
+
     public void close() {
         try {
             out.println(3);

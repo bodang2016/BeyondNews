@@ -298,6 +298,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private int auth = -1;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -308,23 +309,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+            // Simulate network access.
+            auth = Data.client.signAndRegister(mEmail, mPassword);
+
+
+            if (auth == -1) {
+                System.out.println("false"+auth);
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
+            else {
+                System.out.println("success" + auth);
+                return true;
             }
 
             // TODO: register the new account here.
-            return true;
+//            return true;
         }
 
         @Override
