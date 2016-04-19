@@ -29,6 +29,8 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static Activity activity;
+    public static String userEmail="Username";
+    public static String userComment="Usercomment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity
 
         View header = LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
         navigationView.addHeaderView(header);
-//        TextView userName = (TextView) header.findViewById(R.id.userName);
+        TextView userName = (TextView) header.findViewById(R.id.userName);
 //        TextView userComment = (TextView) header.findViewById(R.id.userComment);
         ImageView userHeader = (ImageView) header.findViewById(R.id.userHeader);
         userHeader.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +71,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
-
+        userName.setText(userEmail);
         displayView(R.id.nav_headline);
     }
 
