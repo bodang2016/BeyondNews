@@ -3,7 +3,9 @@ package com.example.boyu.beyondnews;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -310,15 +312,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
 
             // Simulate network access.
-            auth = Data.client.signAndRegister(mEmail, mPassword);
-
-
-            if (auth == -1) {
-                System.out.println("false"+auth);
-                return false;
+            if (Data.client != null) {
+                auth = Data.client.signAndRegister(mEmail, mPassword);
             }
-            else {
+            else return true;
+
+            if (auth == 1 || auth == 0) {
                 System.out.println("success" + auth);
+                return true;
+            } else {
+                System.out.println("false" + auth);
                 return true;
             }
 
@@ -332,7 +335,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                MainActivity.userEmail = mEmail;
+//                System.out.println(mEmail);
+//                MainActivity.userEmail = mEmail;
+                Intent intent = new Intent();
+                intent.putExtra("USER_ID",mEmail);
+                setResult(0, intent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

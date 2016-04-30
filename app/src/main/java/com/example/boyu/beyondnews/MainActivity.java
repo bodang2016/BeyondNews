@@ -1,7 +1,9 @@
 package com.example.boyu.beyondnews;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,8 +31,14 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static Activity activity;
-    public static String userEmail="Username";
-    public static String userComment="Usercomment";
+    public static String userEmail = "Username";
+    public static String userComment = "Usercomment";
+    TextView userName;
+    private static final String PREFS_NAME = "preferences";
+    private static final String PREF_UNAME = "Username";
+
+    private final String DefaultUnameValue = "Tap to Sign in";
+    private String UnameValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +68,15 @@ public class MainActivity extends AppCompatActivity
 
         View header = LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
         navigationView.addHeaderView(header);
-        TextView userName = (TextView) header.findViewById(R.id.userName);
+        userName = (TextView) header.findViewById(R.id.userName);
 //        TextView userComment = (TextView) header.findViewById(R.id.userComment);
         ImageView userHeader = (ImageView) header.findViewById(R.id.userHeader);
         userHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
+                intent.setClass(MainActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
         userName.setText(userEmail);
@@ -76,6 +84,27 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) { //resultCode为回传的标记，我在B中回传的是RESULT_OK
+            case 0:
+                if (data != null) {
+                    Bundle b = data.getExtras(); //data为B中回传的Intent
+                    final String str = b.getString("USER_ID");//str即为回传的值
+                    this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            userName.setText(str);
+                            savePreferences();
+                        }
+                    });
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -170,10 +199,39 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void savePreferences() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
+        // Edit and commit
+        UnameValue = (String) userName.getText();
+        System.out.println("onPause save name: " + UnameValue);
+        editor.putString(PREF_UNAME, UnameValue);
+        editor.commit();
+    }
+
+    private void loadPreferences() {
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME,
+                Context.MODE_PRIVATE);
+
+        // Get value
+        UnameValue = settings.getString(PREF_UNAME, DefaultUnameValue);
+        userName.setText(UnameValue);
+        System.out.println("onResume load name: " + UnameValue);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPreferences();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(Data.client != null)
+        if (Data.client != null)
             Data.client.close();
         System.out.println("closed");
     }
