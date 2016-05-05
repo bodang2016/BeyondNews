@@ -11,4 +11,6 @@
     <string name="local">本地</string>
     <string name="setting">设置</string>
     <string name="building">建设中...</string>
+    <string name="review">评论</string>
+    <string name="review_hint">在这里评论</string>
 </resources>

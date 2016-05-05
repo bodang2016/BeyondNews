@@ -39,6 +39,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.boyu.beyondnews.MainActivity" />
         </activity>
+        <activity android:name=".ReviewActivity"
+            android:parentActivityName=".ReadActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.boyu.beyondnews.ReviewActivity" />
+        </activity>
     </application>
 
 </manifest>

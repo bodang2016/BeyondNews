@@ -34,13 +34,13 @@ public class ReadActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         bundle = getIntent().getExtras();
         new Thread(new Runnable() {
             @Override
@@ -49,6 +49,16 @@ public class ReadActivity extends AppCompatActivity {
                 myHandler.sendEmptyMessage(DO_REFRESH);
             }
         }).start();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        FloatingActionButton review = (FloatingActionButton) this.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(ReadActivity.this, ReviewActivity.class);
+                intent.putExtra("NEWS_ID", bundle.getInt("id"));
+            }
+        });
 
     }
 
@@ -63,7 +73,8 @@ public class ReadActivity extends AppCompatActivity {
             }
         }
     };
-    private void refresh(){
+
+    private void refresh() {
         title.setText(news[0]);
         passage.setText(news[1]);
         System.out.println(news[0]);

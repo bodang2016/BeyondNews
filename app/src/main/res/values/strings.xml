@@ -32,4 +32,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="review">Review</string>
+    <string name="review_hint">Review here</string>
 </resources>
