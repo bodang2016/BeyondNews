@@ -57,6 +57,7 @@ public class ReadActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(ReadActivity.this, ReviewActivity.class);
                 intent.putExtra("NEWS_ID", bundle.getInt("id"));
+                startActivity(intent);
             }
         });
 

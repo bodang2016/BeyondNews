@@ -322,7 +322,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return true;
             } else {
                 System.out.println("false" + auth);
-                return true;
+                return false;
             }
 
             // TODO: register the new account here.

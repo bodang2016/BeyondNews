@@ -27,10 +27,33 @@ public class Data {
 
     }
 
+    public static void insertReview(SQLiteDatabase db, ContentValues v) {
+        db.beginTransaction();
+        try {
+            db.insert("reviewDatabase_info", "_id", v);
+            db.setTransactionSuccessful();
+            System.out.println("insert successful");
+        } finally {
+            db.endTransaction();
+        }
+
+    }
+
     public static void deleteData(SQLiteDatabase db) {
         db.beginTransaction();
         try {
             db.delete("localDatabase_info", null, null);
+            db.setTransactionSuccessful();
+            System.out.println("delete successful");
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public static void deleteReview(SQLiteDatabase db) {
+        db.beginTransaction();
+        try {
+            db.delete("reviewDatabase_info", null, null);
             db.setTransactionSuccessful();
             System.out.println("delete successful");
         } finally {

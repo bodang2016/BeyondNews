@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.ServerSocket;
@@ -29,9 +30,9 @@ public class Client {
     public static int Init() {
         try {
             if (socket == null) {
-                socket = new Socket("10.27.48.93", 1216);
+                socket = new Socket("10.27.50.140", 1216);
             }
-            out = new PrintWriter(socket.getOutputStream(), true);
+            out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
             return 1;
         } catch (UnknownHostException e) {
@@ -183,5 +184,39 @@ public class Client {
             e.printStackTrace();
         }
 
+    }
+
+    public ArrayList<String[]> loadComment(int news_id) {
+        out.println(6);
+        out.println(news_id);
+        ArrayList<String[]> comments = new ArrayList<String[]>();
+        try {
+            String read = in.readLine();
+            while (!read.equals("-1")) {
+                String[] single = new String[3];
+                single[0] = read;
+                single[1] = in.readLine();
+                single[2] = in.readLine();
+                comments.add(single);
+                read = in.readLine();
+            }
+            return comments;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public long insertComment(String[] detail) {
+        out.println(7);
+        out.println(detail[0]);
+        out.println(detail[1]);
+        out.println(detail[2]);
+        try {
+            return Long.parseLong(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

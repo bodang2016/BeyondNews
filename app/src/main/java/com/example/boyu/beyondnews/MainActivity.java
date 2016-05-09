@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     private static final String PREF_UNAME = "Username";
 
     private final String DefaultUnameValue = "Tap to Sign in";
-    private String UnameValue;
+    public static String UnameValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

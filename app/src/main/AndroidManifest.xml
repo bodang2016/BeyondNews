@@ -39,8 +39,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.boyu.beyondnews.MainActivity" />
         </activity>
-        <activity android:name=".ReviewActivity"
-            android:parentActivityName=".ReadActivity">
+        <activity
+            android:name=".ReviewActivity"
+            android:parentActivityName=".ReadActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.boyu.beyondnews.ReviewActivity" />
