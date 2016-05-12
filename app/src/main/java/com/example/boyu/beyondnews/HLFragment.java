@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +31,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +74,7 @@ public class HLFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
     private SimpleCursorAdapter adapter;
     private Cursor cursor;
     private ArrayList<String[]> list2;
+    private String[] list3;
     private int scrollindex;
     private int loadindex = 1;
 
@@ -239,8 +243,9 @@ public class HLFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                 int pos = (Integer) obj.getInt(0);
                 System.out.println(pos);
                 Intent intent = new Intent();
-                intent.setClass(main.getContext(),ReadActivity.class);
-                intent.putExtra("id",pos);
+                intent.setClass(main.getContext(), ReadActivity.class);
+                intent.putExtra("id", pos);
+                intent.putExtra("image_loc", list3[pos]);
                 startActivity(intent);
 
             }
@@ -259,6 +264,7 @@ public class HLFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                 if (result == 1) {
                     Data.client = new Client();
                     list2 = Data.client.getNews(1);
+                    list3 = Data.client.getImage(list2);
                 }
                 myHandler.sendEmptyMessage(DO_REFRESH);
             }
@@ -281,6 +287,7 @@ public class HLFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                                 if (result == 1) {
                                     Data.client = new Client();
                                     list2 = Data.client.getNews(1);
+                                    list3 = Data.client.getImage(list2);
                                     Data.client.close();
                                     Data.client = null;
                                     myHandler.sendEmptyMessage(DO_REFRESH);
@@ -322,12 +329,13 @@ public class HLFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
             Data.num = 1;
             loadindex = 1;
             int[] image = new int[]{R.mipmap.no6, R.mipmap.no7, R.mipmap.no8, R.mipmap.no9, R.mipmap.no10};
+//            System.out.println(list3[0]+"   dfdfjdf");
             for (int i = 0; i < list2.size(); i++) {
                 ContentValues values = new ContentValues();
                 values.put("type", list2.get(i)[2]);
                 values.put("title", list2.get(i)[3]);
                 values.put("desc", list2.get(i)[4]);
-                values.put("image", image[i % 5]);
+                values.put("image", list3[i]);
                 values.put("date", Data.getDateTime());
                 values.put("accountid", "1");
                 values.put("accountname", "1");
@@ -359,7 +367,7 @@ public class HLFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                 values.put("type", list2.get(i)[2]);
                 values.put("title", list2.get(i)[3]);
                 values.put("desc", list2.get(i)[4]);
-                values.put("image", image[i % 5]);
+                values.put("image", list3[i]);
                 values.put("date", Data.getDateTime());
                 values.put("accountid", "1");
                 values.put("accountname", "1");
@@ -394,13 +402,9 @@ public class HLFragment extends Fragment implements SwipeRefreshLayout.OnRefresh
                                         int columnIndex) {
                 // TODO Auto-generated method stub
                 if (view.getId() == R.id.list_image) {
+
                     ImageView list_image = (ImageView) view;
-                    int resID = getActivity().getApplicationContext().getResources()
-                            .getIdentifier(cursor.getString(columnIndex),
-                                    "drawable",
-                                    getActivity().getApplicationContext().getPackageName());
-                    list_image.setImageDrawable(MainActivity.activity.getApplicationContext()
-                            .getResources().getDrawable(resID));
+                    list_image.setImageBitmap(BitmapFactory.decodeFile(cursor.getString(columnIndex)));
                     return true;
                 }
                 return false;

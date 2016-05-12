@@ -21,7 +21,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             + "type integer,"
             + "title varchar,"
             + "desc varchar,"
-            + "image integer,"
+            + "image varchar,"
             + "date date," +
             "accountid integer," +
             "accountname varchar," +

@@ -1,8 +1,16 @@
 package com.example.boyu.beyondnews;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -30,7 +38,7 @@ public class Client {
     public static int Init() {
         try {
             if (socket == null) {
-                socket = new Socket("10.27.50.140", 1216);
+                socket = new Socket("10.19.41.85", 1216);
             }
             out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
@@ -146,6 +154,7 @@ public class Client {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        getImage(list);
         return list;
     }
 
@@ -217,6 +226,47 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    public String[] getImage(ArrayList<String[]> imageList) {
+        out.println(8);
+        try {
+            Socket recieve = new Socket("10.19.41.85", 10000);
+            FileOutputStream file = null;
+            BufferedInputStream inBuffer = null;
+            String[] toReturn = new String[imageList.size()];
+            try {
+                inBuffer = new BufferedInputStream(recieve.getInputStream());
+                for (int i = 0; i < imageList.size(); i++) {
+                    out.println(imageList.get(i)[0]);
+                    System.out.println(i+"  ereerererere");
+                    File path = new File(Environment.getExternalStorageDirectory() + File.separator + "image" + (int)(Math.random() * 100000) + ".jpg");
+//                System.out.println(path.getTotalSpace());
+                    file = new FileOutputStream(path, true);
+                    int c;
+                    toReturn[i] = path.getAbsolutePath();
+//                System.out.println(path.getAbsolutePath()+"     12312312");
+                    while ((c = inBuffer.read()) != -1) {
+//                    System.out.println(c);
+                        file.write(c);
+                        file.flush();
+                    }
+                    System.out.println("1233211234567");
+                    file.close();
+                    inBuffer.close();
+                    recieve = new Socket("10.19.41.85", 10000);
+                    inBuffer = new BufferedInputStream(recieve.getInputStream());
+                }
+                out.println("END");
+                return toReturn;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

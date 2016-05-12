@@ -1,6 +1,8 @@
 package com.example.boyu.beyondnews;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +20,7 @@ public class ReadActivity extends AppCompatActivity {
     TextView passage;
     ImageView image;
     String[] news;
+    Bitmap images;
     Bundle bundle;
 
     private final static int DO_REFRESH = 0;
@@ -46,6 +49,7 @@ public class ReadActivity extends AppCompatActivity {
             @Override
             public void run() {
                 news = Data.client.getContent(bundle.getInt("id"));
+                images = BitmapFactory.decodeFile(bundle.getString("image_loc"));
                 myHandler.sendEmptyMessage(DO_REFRESH);
             }
         }).start();
@@ -78,6 +82,7 @@ public class ReadActivity extends AppCompatActivity {
     private void refresh() {
         title.setText(news[0]);
         passage.setText(news[1]);
+        image.setImageBitmap(images);
         System.out.println(news[0]);
         System.out.println(news[1]);
     }
